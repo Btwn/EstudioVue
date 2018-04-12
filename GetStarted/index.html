@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+    <hr>
+    <div id="if">
+    	<span v-if="seen">Now you see</span>
+    </div>
+    <hr>
+    <div id="for">
+    	<ol>
+    		<li v-for="todo in todos">
+    			{{ todo.text}}
+    		</li>
+    	</ol>
+    </div>
+    <hr>
+    <div id="on">
+    	<p>{{ messageReversible }}</p>
+    	<button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <hr>
+    <div id="model">
+    	<p>{{ messageModel }}</p>
+    	<input v-model="messageModel">
+    </div>
+    <hr>
+    <div id="componente">
+      <ol>
+        <todo-item
+          v-for="item in groceryList"
+          v-bind:todo="item"
+          v-bind:key="item.id"
+        ></todo-item>
+      </ol>
+    </div>
+  </div>
+  <hr>
+  <div id="app2">
+  	<span v-bind:title="message">
+  		Hover your mouse over me for a few seconds
+    	to see my dynamically bound title!
+  	</span>
+  </div>
+
+  <script>
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+    })
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        seen: true,
+        todos: [
+        	{ text: 'Learn Javascript'},
+        	{ text: 'Learn Vue'},
+        	{ text: 'Build something awesome'}
+        ],
+        messageReversible: 'Hello Vue.js!',
+        messageModel: 'Hello Vue!',
+        groceryList: [
+          { id: 0, text: 'Vegetables'},
+          { id: 1, text: 'Cheese'},
+          { id: 2, text: 'Orange'}
+        ]
+      },
+      methods: {
+      	reverseMessage: function(){
+      		this.messageReversible = this.messageReversible.split('').reverse().join('')
+      	}
+      }
+    })
+
+    var app2 = new Vue({
+    	el:'#app2',
+    	data: {
+    		message: 'You loaded this page on ' + new Date().toLocaleString()
+    	}
+    })
+  </script>
+</body>
+</html>

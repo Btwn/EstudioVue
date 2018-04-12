@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue Instance</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <p>{{ a }}</p>
+    <p>Console => vm.a == data.a</p>
+    <p>Console => vm.a = 2</p>
+    <p>Console => data.a</p>
+    <p>Console => data.a = 3</p>
+    <p>Console => vm.a</p>
+  </div>
+
+
+  <script>
+    var data = {a: 1}
+    var vm = new Vue({
+      el: '#app',
+      data: data
+    })
+
+  </script>
+</body>
+</html>

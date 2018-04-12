@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .hide {
+            display: none
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div v-bind:class="{hide: camb == 2}">
+            <p>Clave</p>
+            <button @click="cambiar()">BuscarXNombre</button>
+        </div>
+        <div v-bind:class="{hide: camb == 1}">
+            <p>Nombre</p>
+            <button @click="cambiar()">BuscarXClave</button>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+    <!-- <script src="main.js"></script> -->
+</body>
+</html>
+
+<script>
+    new Vue({
+        el: "main",
+        data: {
+            texto: "algo",
+            camb: 1
+        },
+        methods: {
+            cambiar(){
+                if (this.camb==1)
+                    this.camb=2
+                else
+                    this.camb=1
+            }
+        }
+    })
+</script>
