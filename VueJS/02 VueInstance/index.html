@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Vue Instance</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <span>Console - a: {{ a }}</span><br>
+    <span>data.a==vm.a</span><br>
+    <span>data.a=2</span><br>
+    <span>vm.a</span><br>
+    <span>vm.a=3</span><br>
+    <span>data.a</span><br>
+    <hr>
+  </div>
+
+
+  <script>
+    var data={a:1}
+    //Object.freeze(data) //Conjela un objeto
+    var vm = new Vue({
+      el: '#app',
+      data: data,
+      created: function(){
+        console.log('a is: ' + this.a)
+      }
+    })
+
+    console.log(vm.$data === data)
+    console.log(vm.$el === document.getElementById('app'))
+    vm.$watch('a', function(newValue, oldValue){console.log('cambio ' + newValue)})
+  </script>
+</body>
+</html>

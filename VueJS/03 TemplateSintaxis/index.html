@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Template sintaxis</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="text">
+      <span>Message: {{ msg }}</span><br>
+      <span v-once>This will never change, how photograph: {{ msg2 }}</span><br>
+      <span>Same data: {{ msg2 }}</span>
+    </div>
+    <hr>
+    <div id="rawHtml">
+      <p>Using mustaches: {{ rawHtml }}</p>
+      <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+    </div>
+    <hr>
+    <div id="attributes">
+      <div v-bind:id="dynamicId"><span>id dinamico</span></div>
+      <button v-bind:disabled="isButtonDisabled">Button</button>
+    </div>
+    <hr>
+    <div id="jsExpresions">
+      <span>{{ msg.split('').reverse().join('') }}</span>
+    </div>
+    <hr>
+    <div id="directives">
+      <p v-if="seen">Now you see me!</p>
+    </div>
+    <hr>
+    <div id="Argumeto">
+      <a v-bind:href="url">VueJs - hacia un atributp</a>
+      <br>
+      <a v-on:click="haceAlgo">VueJs - hacia un evento</a>
+    </div>
+    <hr>
+    <div id="modifiers">
+      <form v-on:submit.prevent="onSubmit">
+        <input type="text" name="text">
+        <input type="submit" name="submit">
+      </form>
+    </div>
+  </div>
+
+
+  <script>
+    var data={a:1}
+    //Object.freeze(data) //Conjela un objeto
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'Hello Vue!',
+        msg2: 'Hi Vue!',
+        rawHtml: '<span style="color: red">This should be red.</span>',
+        dynamicId: 'dinam',
+        isButtonDisabled:true,
+        seen: true,
+        url: 'https://vuejs.org/v2/guide/syntax.html'
+      },
+      methods: {
+        haceAlgo(){
+          console.log('Hizo algo')
+        },
+        onSubmit(){
+          console.log('Hizo otra cosa')
+        }
+      }
+    })
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Template sintaxis</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="basic">
+      <span>Message: {{ message }}</span><br>
+      <span>Computed reversed message: {{ reverseMessage }}</span><br>
+    </div>
+    <hr>
+    <div id="versusMethod">
+      <span>Computed reversed message: {{ reverseMsg() }}</span><br>
+      <span>Fecha con computado: {{ now }}</span>
+    </div>
+  </div>
+
+
+  <script>
+    var data={a:1}
+    //Object.freeze(data) //Conjela un objeto
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      },
+      computed: {
+        reverseMessage: function(){
+          return this.message.split('').reverse().join('')
+        },
+        now: function(){
+          return Date.now()
+        }
+      },
+      methods: {
+        reverseMsg: function(){
+          return this.message.split('').reverse().join('')
+        }
+      }
+    })
+
+
+  </script>
+</body>
+</html>
