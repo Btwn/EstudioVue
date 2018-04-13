@@ -11,7 +11,87 @@
   		<span>{{ text }}</span>
   	</div>
   	<hr>
-  	<div id="multilineBasic"></div>
+  	<div id="multilineBasic">
+      <span>Multiple message is:</span><br>
+      <textarea v-model="textarea" placeholder="add multiple lines">{{ textarea }}</textarea><br>
+      <p style="white-space: pre-line;">{{ textarea }}</p>
+    </div>
+    <hr>
+    <div id="checkbox">
+      <input type="checkbox" name="checkbox" v-model="checked">
+      <label for="checkbox">{{ checked }}</label><br>
+
+      <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+      <label for="jack">Jack</label>
+      <input type="checkbox" id="john" value="John" v-model="checkedNames">
+      <label for="john">John</label>
+      <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+      <label for="mike">Mike</label>
+      <br>
+      <span>Checked names: {{ checkedNames }}</span>
+    </div>
+    <hr>
+    <div id="radio">
+      <input type="radio" id="one" value="One" v-model="picked">
+      <label for="one">One</label>
+      <br>
+      <input type="radio" id="two" value="Two" v-model="picked">
+      <label for="two">Two</label>
+      <br>
+      <span>Picked: {{ picked }}</span>
+    </div>
+    <hr>
+    <div id="select">
+      <select v-model="selected">
+        <option disabled value>Plis select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+        <option>D</option>
+      </select>
+      <span>Selected single: {{ selected }}</span>
+      <br>
+      <select multiple v-model="selectedMultiple">
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
+      <span>Selected multiple: {{ selectedMultiple }}</span>
+      <br>
+      <select v-model="selectedOption">
+        <option v-for="option in options" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+      <span>Selected with for: {{ selectedOption }}</span>
+    </div>
+    <hr>
+    <div id="bindingCheckbox">
+      <input
+        type="checkbox"
+        name="checkboxBinding"
+        v-model="toggle"
+        true-value="yes"
+        false-value="no"
+        >
+        <label for="checkboxBinding">{{ toggle }}</label>
+        <br>
+        <input type="radio" v-model="pick" v-bind:value="a">
+        <br>
+        <select v-model="selected">
+          <!-- inline object literal -->
+          <option v-bind:value="{ number: 123 }">123</option>
+        </select>
+    </div>
+    <hr>
+    <div id="modifiers">
+      <!-- synced after "change" instead of "input" -->
+      <input v-model.lazy="msg" placeholder="lazy"><span>{{ msg }}</span><br>
+      <!-- convert to number -->
+      <input v-model.number="age" type="number" placeholder="number"><span>{{ age }}</span><br>
+      <!-- space in the edge, eliminated -->
+      <input v-model.trim="trim" placeholder="trim"><span>{{ trim }}</span><br>
+    </div>
 
   </div>
 
@@ -21,7 +101,25 @@
       el: '#app',
       data: {
         message: 'Hello Vue!',
-        text: ''
+        text: '',
+        textarea: 'asdf',
+        checked: true,
+        checkedNames: [],
+        picked: '',
+        selected: '',
+        selectedMultiple: [],
+        selectedOption: '',
+        options: [
+          { text: 'One', value: 'A' },
+          { text: 'Two', value: 'B' },
+          { text: 'Three', value: 'C' }
+        ],
+        toggle: false,
+        pick: '',
+        a: 'a',
+        msg: null,
+        age: null,
+        trim: null
       }
     })
   </script>

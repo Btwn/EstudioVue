@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Components Registration</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+  	<div id="GlobalComponent">
+      <component-global></component-global>
+    </div>
+    <hr>
+    <div id="LocalComponent">
+      <component-a></component-a>
+    </div>
+    <hr>
+    <div id="ModuleSystem">
+      <component-b></component-b>
+    </div>
+
+  </div>
+
+
+  <script>
+    //import ComponentB from './ComponentB.js'
+    var ComponentB = require('ComponentB.js')
+
+    Vue.component('component-global',{
+      template: `<p>Global Registration</p>`
+    })
+
+    var ComponentA = { template: `<p>Local Registration</p>` }
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+      },
+      components: {
+        'component-a': ComponentA,
+        'component-b': ComponentB.ComponentB
+      }
+    })
+  </script>
+</body>
+</html>

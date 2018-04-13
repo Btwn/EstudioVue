@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Components Basic</title>
+  <script src="https://unpkg.com/vue"></script>
+  <style type="text/css">
+    .demo-alert-box {
+      padding: 10px 20px;
+      background: #f3beb8;
+      border: 1px solid #f09898;
+    }
+    .tab-button {
+      padding: 6px 10px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f0f0f0;
+      margin-bottom: -1px;
+      margin-right: -1px;
+    }
+    .tab-button:hover {
+      background: #e0e0e0;
+    }
+    .tab-button.active {
+      background: #a0a0a0;
+    }
+    .tab {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+  	<div id="baseExample">
+      <button-counter></button-counter>
+      <button-counter></button-counter>
+      <button-counter></button-counter>
+    </div>
+    <hr>
+    <div id="props">
+      <blog-post title="My journey with Vue"></blog-post>
+      <blog-post title="Blogging with Vue"></blog-post>
+      <blog-post title="Why Vue is so fun"></blog-post>
+
+      <blog-post
+        v-for="post in posts"
+        v-bind:id="post.id"
+        v-bind:title="post.title"
+      ></blog-post>
+    </div>
+    <hr>
+    <div id="withParents" :style="{ fontSize: postFontSize + 'em' }">
+      <blog-post
+        v-for="post in posts"
+        v-bind:id="post.id"
+        v-bind:title="post.title"
+      ></blog-post>
+    </div>
+    <hr>
+    <div id="enlargeText" :style="{ fontSize: postFontSize + 'em' }">
+      <blog-post-todo
+        v-for="post in posts"
+        v-bind:id="post.id"
+        v-bind:post="post"
+        v-on:enlarge-text="onLargeText"
+      ></blog-post-todo>
+    </div>
+    <hr>
+    <div id="v-model">
+      <input v-model="serachText" placeholder="v-model"><span>{{ serachText }}</span><br>
+      <input
+        v-bind:value="serachText" 
+        v-on:input="serachText = $event.target.value"
+        placeholder="v-bind v-on"
+      ><span>{{ serachText }}</span><br>
+      <custom-input v-model="serachText"></custom-input><span>{{ serachText }}</span>
+    </div>
+    <hr>
+    <div id="slot">
+      <alert-box>
+        Something bad happened.
+      </alert-box>
+    </div>
+    <br>
+    <div id="DinamicComponent">
+      <button
+        v-for="tab in tabs"
+        v-bind:key="tab"
+        v-bind:class="['tab-button', {active: currentTab === tab}]"
+        v-on:click="currentTab = tab"
+      >{{ tab }}</button>
+      <component
+        v-bind:is="currentTabComponent"
+        class="tab"
+      ></component>
+    </div>
+
+  </div>
+
+
+  <script>
+    Vue.component('button-counter',{
+      data: function(){
+        return { count: 0 }
+      },
+      template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+
+    Vue.component('blog-post', {
+      props: ['title'],
+      template: '<p>{{ title }}</p>'
+    })
+
+    Vue.component('blog-post-todo', {
+      props: ['post'],
+      template: `
+        <div class="blog-post">
+          <h3>{{ post.title }}</h3>
+          <button v-on:click="$emit('enlarge-text', 0.1)">
+            Enlarge text
+          </button>
+          <div v-html="post.content"></div>
+        </div>`
+    })
+
+    Vue.component('custom-input', {
+      props: ['valueInput'],
+      template: `
+        <input
+          v-bind:value="valueInput"
+          v-on:input="$emit('input', $event.target.value)"
+          placeholder="with component"
+        >`
+    })
+
+    Vue.component('alert-box', {
+      template: `
+        <div class="demo-alert-box">
+          <strong>Error!</strong>
+          <slot>Home component</slot>
+        </div>
+      `
+    })
+
+    Vue.component('tab-home', {
+      template: `<div>Home component</div>`
+    })
+
+    Vue.component('tab-posts', {
+      template: `<div>Post component</div>`
+    })
+
+    Vue.component('tab-archive', {
+      template: `<div>Archive component</div>`
+    })
+
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        posts: [
+          { id: 1, title: 'My journey with Vue' },
+          { id: 2, title: 'Blogging with Vue' },
+          { id: 3, title: 'Why Vue is so fun' }
+        ],
+        postFontSize: 0.5,
+        serachText: '',
+        currentTab: 'Home',
+        tabs: ['Home','Posts','Archive']
+      },
+      computed: {
+        currentTabComponent: function(val){
+          return 'tab-' + this.currentTab.toLowerCase()
+        }
+      },
+      methods: {
+        onLargeText: function(val){
+          this.postFontSize += val
+        }
+      }
+    })
+  </script>
+</body>
+</html>
