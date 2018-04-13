@@ -3,6 +3,8 @@
 <head>
   <title>Template sintaxis</title>
   <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 </head>
 <body>
   <div id="app">
@@ -15,6 +17,23 @@
       <span>Computed reversed message: {{ reverseMsg() }}</span><br>
       <span>Fecha con computado: {{ now }}</span>
     </div>
+    <hr>
+    <div id="versusWatch">
+      <span>{{ fullName }}</span><br>
+      <span>{{ fullNameComputed }}</span>
+    </div>
+    <hr>
+    <div id="ComputedSetter">
+      <span>{{ fullNameComputed }}</span>
+    </div>
+    <hr>
+    <div id="watcher">
+      <p>
+        Ask a yes/no question:
+        <input v-model='question'>
+      </p>
+      <p>{{ answer }}</p>
+    </div>
   </div>
 
 
@@ -24,7 +43,14 @@
     var vm = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!'
+        message: 'Hello Vue!',
+        firstName: 'foo',
+        lastName: 'bar',
+        fullName: 'foo bar',
+        firstNameComputed: 'foo',
+        lastNameComputed: 'bar',
+        question: '',
+        answer: 'I cannot give you an answer until you ask a question!'
       },
       computed: {
         reverseMessage: function(){
@@ -32,13 +58,50 @@
         },
         now: function(){
           return Date.now()
+        },
+        fullNameComputed: {
+          get: function(){
+            return this.firstNameComputed + ' ' + this.lastNameComputed
+          },
+          set: function(newVal){
+            var names = newVal.split(' ')
+            this.firstNameComputed = names[0]
+            this.lastNameComputed = names[names.length - 1]
+          }
+        }
+      },
+      watch: {
+        firstName: function(val){
+          this.fullName = val + ' ' + this.lastName
+        },
+        lastName: function(val){
+          this.fullName = this.firstname + ' ' + val
+        },
+        question: function(newQuestion, oldQuestion){
+          this.answer = 'Waiting for you stop typing...'
+          this.getAnswer()
         }
       },
       methods: {
         reverseMsg: function(){
           return this.message.split('').reverse().join('')
-        }
-      }
+        },
+        getAnswer: _.debounce(function(){
+          if(this.question.indexOf('?') === -1){
+            this.answer = 'Questions usually contain a question mark. ;-'
+            return
+          }
+          this.answer = 'Thinking...'
+          var vm = this
+          axios.get('https://yesno.wtf/api')
+            .then(function(response){
+              vm.answer = _.capitalize(response.data.answer)
+            })
+            .catch(function (error){
+              vm.answer = 'Error! Could not resach the API ' + error
+            })
+        },500)
+      },
     })
 
 

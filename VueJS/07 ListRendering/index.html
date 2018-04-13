@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List Rendering</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="arrayInFor">
+      <ul>
+        <li v-for="item in items">
+          {{ item.message }}
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div id="arrayInForParent">
+      <ul>
+        <li v-for="(item, index) in items">
+          {{ parent }} - {{ index }} - {{ item.message }}
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div id="objectInFor">
+      <ul>
+        <!-- <li v-for="value in object"> -->
+          <!-- {{ value }} -->
+        <!-- <li v-for="(value, key) in object"> -->
+          <!-- {{ key }}: {{ value }} -->
+        <li v-for="(value, key, index) in object">
+          {{ index }}. {{ key }}: {{ value }}
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div id="key">
+      <ul>
+        <li v-for="item in items" :key="item.id">
+          {{ item.message }} - {{ item.id }}
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div id="mutationMethods">
+      <button v-on:click="pushInArray">push in array</button>
+      <button v-on:click="popInArray">pop in array</button>
+      <button v-on:click="shiftInArray">shift in array</button>
+      <button v-on:click="unshiftInArray">unshift in array</button>
+      <button v-on:click="spliceInArrayAdd">splice add in array</button>
+      <button v-on:click="spliceInArrayReplace">splice replace in array</button>
+      <button v-on:click="sortInArray">sort in array</button>
+      <button v-on:click="reverseInArray">reverse in array</button>
+    </div>
+    <hr>
+    <div id="replacingArray">
+      
+    </div>
+  </div>
+
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        parent: 'Parent',
+        items: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ],
+        object: {
+          firstName: 'Jhon',
+          lastName: 'Due',
+          age: 30
+        }
+      },
+      methods: {
+        pushInArray: function(){
+          this.items.push({message: 'Baz'})
+        },
+        popInArray: function(){
+          this.items.pop()
+        },
+        shiftInArray: function(){
+          this.items.shift()
+        },
+        unshiftInArray: function(){
+          this.items.unshift({message: 'Baz'})
+        },
+        spliceInArrayAdd: function(){
+          this.items.splice(1,0,{message: 'Baz'})
+        },
+        spliceInArrayReplace: function(){
+          this.items.splice(1,1,{message: 'Baz'})
+        },
+        sortInArray: function(){
+          this.items.sort()
+        },
+        reverseInArray: function(){
+          this.items.reverse()
+        }
+      }
+    })
+
+
+  </script>
+</body>
+</html>

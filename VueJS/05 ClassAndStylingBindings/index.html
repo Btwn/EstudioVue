@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Template sintaxis</title>
+  <script src="https://unpkg.com/vue"></script>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div id="app">
+    <div id="bindingHtmlClass">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" v-bind:class="{ 'active': isActive, 'text-danger': hasError }" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" v-bind:class="classObject" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      <div v-bind:class="{ active: isActive }">binding Html Class</div><br>
+    </div>
+    <hr>
+    <div id="arraySintaxis">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" v-bind:class="[activeClass, errorClass]" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" v-bind:class="[isActive ? 'alert-danger' : activeClass]" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div id="withComponent">
+      <my-component class="baz boo"></my-component>
+      <my-component v-bind:class="{ active: isActive }"></my-component>
+    </div>
+    <hr>
+    <div id="BindingInlineStyles">
+      <div v-bind:style="{color: activeColor, fontSize: fontSize + 'px'}">{{ message }}</div>
+      <div v-bind:style="objectSintax">{{ message }}</div>
+      <div v-bind:style="[activeColor, overridingStyles]">{{ message }}</div>
+    </div>
+  </div>
+
+
+  <script>
+    Vue.component('my-component',{
+      template: '<p class="foo bar">Hi</p>'
+    })
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        isActive: true,
+        hasError: false,
+        error: null,//'fatal',
+        activeClass: 'active',
+        errorClass: 'text-danger',
+        activeColor: 'red',
+        fontSize: 30,
+        objectSintax: {
+          color: 'red',
+          fontSize: '15px'
+        }
+      },
+      computed: {
+        classObject: function(){
+          return {
+            active: this.isActive && this.error,
+            'text-danger': this.error && this.error.type === 'fatal'
+          }
+        }
+      }
+    })
+
+
+  </script>
+</body>
+</html>

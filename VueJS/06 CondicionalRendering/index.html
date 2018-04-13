@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Condicional Rendering</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <span v-if="ok">yes</span>
+    <span v-else>no</span><br>
+    <div v-if="ok">
+      <h1>Si</h1>
+      <span>se escribe si</span><br>
+    </div>
+    <div v-else>
+      <h1>No</h1>
+      <span>se escribe no</span><br>
+    </div>
+    <div v-if="type === 'A'">
+      A
+    </div>
+    <div v-else-if="type === 'B'">
+      B
+    </div>
+    <div v-else-if="type === 'C'">
+      C
+    </div>
+    <div v-else>
+      Not A/B/C
+    </div>
+    <hr>
+    <div id="IfWithKey">
+      <template v-if="loginType === 'username'">
+      <label>Username</label>
+        <input placeholder="Enter your username">
+      </template>
+      <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address">
+      </template>
+      <button v-on:click="toggleLoginType">Toggle login type</button>
+    </div>  
+    <hr>
+    <div id="IfWithKeyOther">
+      <template v-if="loginTypeOther === 'username'">
+      <label>Username</label>
+        <input placeholder="Enter your username" key="usernameInput">
+      </template>
+      <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address" key="emailInput">
+      </template>
+      <button v-on:click="toggleLoginTypeOther">Toggle login type</button>
+    </div>
+    <hr>
+    <div id="show">
+      <span v-show="ok">This is a Show!</span>
+    </div>
+  </div>
+
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        ok: true,
+        type: 'B',
+        loginType: 'username',
+        loginTypeOther: 'username',
+        usernameInput: '',
+        emailInput: ''
+      },
+      methods:{
+        toggleLoginType: function(){
+          console.log('p')
+          (this.loginType = this.loginType == 'username' ? 'email' : 'username')
+        },
+        toggleLoginTypeOther: function(){
+          console.log('p')
+          (this.loginTypeOther = this.loginTypeOther == 'username' ? 'email' : 'username')
+        }
+      }
+    })
+
+
+  </script>
+</body>
+</html>
