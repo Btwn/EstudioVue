@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Input Bindings</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+  	<div id="basicText">
+  		<input v-model="text" placeholder="edit me!">
+  		<span>{{ text }}</span>
+  	</div>
+  	<hr>
+  	<div id="multilineBasic"></div>
+
+  </div>
+
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        text: ''
+      }
+    })
+  </script>
+</body>
+</html>

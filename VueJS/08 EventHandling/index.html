@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List Rendering</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+  	<div id="listening">
+  		<button v-on:click="counter += 1">Add 1</button>
+  		<span>the button has been clicked {{ counter }} times</span>
+  	</div>
+  	<hr>
+  	<div id="MethodEvent">
+  		<button v-on:click='greet'>Greet</button>
+  	</div>
+  	<hr>
+  	<div id="MethodInLine">
+  		<button v-on:click="say('hi')">Say hi</button>
+  		<button v-on:click="say('what')">Say what</button>
+  		<button v-on:click="warm('Form cannot be submitted yet.', $event)">Submit</button>
+  	</div>
+  	<hr>
+  	<div id="EventModifiers">
+  		<!-- the click event's propagation will be stopped -->
+		<a v-on:click.stop="doThis">Foo</a>
+
+		<!-- the submit event will no longer reload the page -->
+		<form v-on:submit.prevent="onSubmit"></form>
+
+		<!-- modifiers can be chained -->
+		<a v-on:click.stop.prevent="doThat">Bar</a>
+
+		<!-- just the modifier -->
+		<form v-on:submit.prevent></form>
+
+		<!-- use capture mode when adding the event listener -->
+		<!-- i.e. an event targeting an inner element is handled here before being handled by that element -->
+		<div v-on:click.capture="doThis">...</div>
+
+		<!-- only trigger handler if event.target is the element itself -->
+		<!-- i.e. not from a child element -->
+		<div v-on:click.self="doThat">...</div>	  		
+  	</div>
+  	<hr>
+  	<div id="keyModifiers">
+  		<input v-on:keyup.enter="event" placeholder="enter">
+  		<input v-on:keyup.tab="event" placeholder="tab">
+  		<input v-on:keyup.up="event" placeholder="up">
+  		<input v-on:keyup.page-down="event" placeholder="page-down">
+  	</div>
+  	<hr>
+  	<div id="SystemModifierKeys">
+  		<input v-on:keyup.alt.67="event" placeholder="Alt + C">
+
+  		<!-- no importa si hay otras teclas presionadas -->
+  		<input v-on:click.ctrl="event" placeholder="Ctrl + Click">
+
+  		<!-- Solo deben de suceder los eventos exactos -->
+  		<input v-on:click.ctrl.exact="event" placeholder="Ctrl + Click (exact)">
+
+  		<!-- Solo sucede si se hace click sin combinacion de nada -->
+  		<input v-on:click.exact="event" placeholder="Click (exact)">
+
+  		<input v-on:click.left="event" placeholder="Click Left">
+  		<input v-on:click.right="event" placeholder="Click Right">
+  		<input v-on:click.middle="event" placeholder="Click Middle">
+  	</div>
+
+  </div>
+
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        counter: 0
+      },
+      methods: {
+      	greet: function(event){
+      		alert('Hello ' + this.message)
+      		if(event)
+      			alert(event.target.tagName)
+      	},
+      	say: function(val){
+      		alert(val)
+      	},
+      	warm: function(message, event){
+      		// now we have access to the native event
+      		if(event) event.preventDefault()
+      		alert(message)
+      	},
+      	event: function(val){
+      		alert(val)
+      	}
+      }
+    })
+  </script>
+</body>
+</html>
